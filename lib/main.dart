@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:simar_test/presentation/colors.dart';
 import 'package:simar_test/presentation/home_host/home_host_screen.dart';
 import 'package:simar_test/presentation/route_helper.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Simar Test',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: kBlue),
         useMaterial3: true,
       ),
       routes: routeHelper.createRoutes(),
