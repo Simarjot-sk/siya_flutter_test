@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:simar_test/data/models/news_item_dto.dart';
 import 'package:simar_test/presentation/home/widgets/my_chip.dart';
 import 'package:simar_test/presentation/home/widgets/my_network_image.dart';
 
 class NewsCarousalItem extends StatelessWidget {
-  const NewsCarousalItem({super.key});
+  final NewsItemDto dto;
+
+  const NewsCarousalItem({super.key, required this.dto});
 
   @override
   Widget build(BuildContext context) {
@@ -12,16 +15,18 @@ class NewsCarousalItem extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(25)),
       child: Stack(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(25),
-            child: const MyNetworkImage(url: ''),
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: MyNetworkImage(url: dto.urlToImage ?? ''),
+            ),
           ),
-          const Positioned(
+          Positioned(
             top: 16,
             left: 16,
-            child: MyChip(text: 'Sports'),
+            child: MyChip(text: dto.source?.name ?? ""),
           ),
-           Positioned.fill(
+          Positioned.fill(
             bottom: 16,
             left: 16,
             child: Align(
@@ -30,8 +35,8 @@ class NewsCarousalItem extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'sldkfjlskdjfl sldkflskd jlskd sdf sdfsdfsdfsdf sdfsdfs sdf  ',
-                    style: TextStyle(
+                    dto.description ?? "",
+                    style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
                         fontSize: 20),
