@@ -14,7 +14,7 @@ class Heading extends StatelessWidget {
         children: [
           Text(
             headingText,
-            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
+            style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, fontFamily: ''),
           ),
           const Spacer(),
           const Text(

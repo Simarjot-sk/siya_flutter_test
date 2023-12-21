@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simar_test/data/models/news_item_dto.dart';
+import 'package:simar_test/presentation/colors.dart';
 import 'package:simar_test/presentation/home/widgets/my_chip.dart';
 import 'package:simar_test/presentation/home/widgets/my_network_image.dart';
 
@@ -18,7 +19,22 @@ class NewsCarousalItem extends StatelessWidget {
           Positioned.fill(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(25),
-              child: MyNetworkImage(url: dto.urlToImage ?? ''),
+              child: MyNetworkImage(
+                  url: dto.urlToImage ?? 'https://picsum.photos/200'),
+            ),
+          ),
+          Positioned.fill(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black87],
+                  ),
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -34,12 +50,36 @@ class NewsCarousalItem extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  Row(
+                    children: [
+                      Text(
+                        dto.author ?? "",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(width: 5),
+                      const Icon(
+                        size: 20,
+                        Icons.verified,
+                        color: kBlue,
+                      ),
+                      Text(
+                        "  •  ${dto.getPrettyTime()}",
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
                   Text(
                     dto.description ?? "",
                     style: const TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20),
+                        fontWeight: FontWeight.w900,
+                        fontSize: 15),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   )

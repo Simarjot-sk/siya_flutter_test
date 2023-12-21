@@ -21,7 +21,7 @@ class MyChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 16),
         child: Text(
           text,
-          style: TextStyle(color: textColor),
+          style: TextStyle(color: textColor,fontSize: 10, fontWeight: FontWeight.w600),
         ),
       ),
     );

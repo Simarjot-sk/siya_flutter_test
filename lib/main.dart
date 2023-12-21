@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: kBlue),
         useMaterial3: true,
+        fontFamily: 'nunito'
       ),
       routes: routeHelper.createRoutes(),
       initialRoute: HomeHostScreen.route,

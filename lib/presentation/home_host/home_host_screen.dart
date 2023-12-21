@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:simar_test/presentation/discover/discover_screen.dart';
 import 'package:simar_test/presentation/home/home_screen.dart';
+import 'package:simar_test/presentation/home/home_state_holder.dart';
 import 'package:simar_test/presentation/home_host/widgets/bottom_bar.dart';
 
 class HomeHostScreen extends StatefulWidget {
@@ -14,6 +16,15 @@ class HomeHostScreen extends StatefulWidget {
 
 class _HomeHostScreenState extends State<HomeHostScreen> {
   var _bottomBarIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final homeStateHolder = context.read<HomeStateHolder>();
+      homeStateHolder..loadBreakingNews()..loadRecommendations();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

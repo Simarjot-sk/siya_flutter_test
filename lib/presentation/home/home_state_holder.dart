@@ -17,7 +17,7 @@ class HomeStateHolder extends ChangeNotifier {
       notifyListeners();
 
       final news = await NewsRepository.getAllNews(1);
-      loadBreakingNewsState = SuccessState(news);
+      loadBreakingNewsState = SuccessState(news.take(5).toList());
       notifyListeners();
     } catch (e, stack) {
       final errorMessage =
@@ -28,5 +28,21 @@ class HomeStateHolder extends ChangeNotifier {
     }
   }
 
-  void loadRecommendations() {}
+  void loadRecommendations() async {
+    try {
+      //updating action state to loading
+      loadRecommendationsState = const LoadingState();
+      notifyListeners();
+
+      final news = await NewsRepository.getAllNews(1, 'programming');
+      loadRecommendationsState = SuccessState(news);
+      notifyListeners();
+    } catch (e, stack) {
+      final errorMessage =
+      e is NewsApiException ? e.message : kGenericErrorMessage;
+      loadRecommendationsState = ErrorState(errorMessage);
+      notifyListeners();
+      dev.log('error while loading breaking news', error: e, stackTrace: stack);
+    }
+  }
 }
