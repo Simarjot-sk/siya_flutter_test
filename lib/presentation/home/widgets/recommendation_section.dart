@@ -20,8 +20,11 @@ class RecommendationSection extends StatelessWidget {
       SuccessState<List<NewsItemDto>> success => Column(
           children: success.data
               .map(
-                (e) => NewsListItem(
-                  dto: e,
+                (e) => Padding(
+                  padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                  child: NewsListItem(
+                    dto: e,
+                  ),
                 ),
               )
               .toList(),

@@ -9,9 +9,8 @@ class NewsListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 120,
-      padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
       child: Row(
         children: [
           SizedBox(
