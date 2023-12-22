@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simar_test/data/models/news_item_dto.dart';
 import 'package:simar_test/presentation/colors.dart';
+import 'package:simar_test/presentation/details/details_screen.dart';
 import 'package:simar_test/presentation/home/home_state_holder.dart';
 import 'package:simar_test/presentation/home/widgets/error_section.dart';
 import 'package:simar_test/presentation/home/widgets/news_carousal_item.dart';
@@ -32,8 +33,17 @@ class _NewsCarousalState extends State<NewsCarousal> {
           CarouselSlider(
             items: widget.items
                 .map(
-                  (e) => NewsCarousalItem(
-                    dto: e,
+                  (e) => InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        DetailsScreen.route,
+                        arguments: e,
+                      );
+                    },
+                    child: NewsCarousalItem(
+                      dto: e,
+                    ),
                   ),
                 )
                 .toList(),
@@ -103,15 +113,15 @@ class NewsCarousalSection extends StatelessWidget {
         context.select<HomeStateHolder, ActionState<List<NewsItemDto>>>(
       (stateHolder) => stateHolder.loadBreakingNewsState,
     );
-      return switch (state) {
-        SuccessState success => NewsCarousal(items: success.data),
-        ErrorState error => ErrorSection(
-            errorMessage: error.errorMessage,
-            onRetryClicked: () {
-              context.read<HomeStateHolder>().loadBreakingNews();
-            },
-          ),
-        LoadingState _ => Container(
+    return switch (state) {
+      SuccessState success => NewsCarousal(items: success.data),
+      ErrorState error => ErrorSection(
+          errorMessage: error.errorMessage,
+          onRetryClicked: () {
+            context.read<HomeStateHolder>().loadBreakingNews();
+          },
+        ),
+      LoadingState _ => Container(
           height: 200,
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
           child: Shimmer.fromColors(
@@ -123,9 +133,8 @@ class NewsCarousalSection extends StatelessWidget {
               height: double.infinity,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(20)
-                ),
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(20)),
               ),
             ),
           ),

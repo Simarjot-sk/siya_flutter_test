@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:simar_test/presentation/home/home_state_holder.dart';
 import 'package:simar_test/presentation/home/widgets/heading.dart';
 import 'package:simar_test/presentation/home/widgets/news_carousal.dart';
-import 'package:simar_test/presentation/home/widgets/news_list_item.dart';
 import 'package:simar_test/presentation/home/widgets/recommendation_section.dart';
 import 'package:simar_test/presentation/home/widgets/top_bar.dart';
 

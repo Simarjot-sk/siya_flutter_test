@@ -34,12 +34,13 @@ class NewsRepository {
   }
 
   static Future<List<NewsItemDto>> getHeadlines(
-      int page, NewsCategory category) async {
+      int page, NewsCategory category, String query) async {
     final queryParams = <String, String>{
       'pageSize': kPageSize.toString(),
       'page': page.toString(),
       'apiKey': '1ff96a9d46e04f5b85e3e0852ab61d73',
       'country': 'us',
+      'q': query,
       if (category != NewsCategory.all) 'category': category.name
     };
     final uri = Uri.https(kBaseUrl, '/v2/top-headlines', queryParams);

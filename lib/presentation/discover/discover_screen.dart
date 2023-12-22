@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +7,7 @@ import 'package:simar_test/data/constants.dart';
 import 'package:simar_test/data/models/categories.dart';
 import 'package:simar_test/data/models/news_item_dto.dart';
 import 'package:simar_test/data/news_repository.dart';
+import 'package:simar_test/presentation/details/details_screen.dart';
 import 'package:simar_test/presentation/discover/discover_state_holder.dart';
 import 'package:simar_test/presentation/discover/widgets/category_radio.dart';
 import 'package:simar_test/presentation/home/widgets/news_list_item.dart';
@@ -21,6 +24,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   final PagingController<int, NewsItemDto> _pagingController =
       PagingController(firstPageKey: 0);
   NewsCategory selectedCategory = NewsCategory.all;
+  String _query = '';
+  Timer? _timer;
 
   @override
   void initState() {
@@ -33,7 +38,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final newItems =
-          await NewsRepository.getHeadlines(pageKey, selectedCategory);
+          await NewsRepository.getHeadlines(pageKey, selectedCategory, _query);
       final isLastPage = newItems.length < kPageSize;
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
@@ -88,8 +93,13 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               child: PagedListView<int, NewsItemDto>(
                 pagingController: _pagingController,
                 builderDelegate: PagedChildBuilderDelegate<NewsItemDto>(
-                  itemBuilder: (context, item, index) => NewsListItem(
-                    dto: item,
+                  itemBuilder: (context, item, index) => InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, DetailsScreen.route, arguments: item);
+                    },
+                    child: NewsListItem(
+                      dto: item,
+                    ),
                   ),
                 ),
               ),
@@ -121,10 +131,22 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
           ),
           contentPadding: EdgeInsets.zero,
         ),
-        onChanged: (query) {
-
-        },
+        onChanged: _onChanged,
       ),
+    );
+  }
+
+  ///in order to avoid calling api on every character entered.
+  ///We will only call the api, once the user has stopped typing, 500 milliseconds have elapsed
+  void _onChanged(String query) {
+    _timer?.cancel();
+    _timer = Timer(
+      const Duration(milliseconds: 500),
+      () {
+        //call api from here
+        _query = query;
+        _pagingController.refresh();
+      },
     );
   }
 }

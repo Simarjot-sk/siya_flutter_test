@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:simar_test/data/models/news_item_dto.dart';
+import 'package:simar_test/presentation/details/details_screen.dart';
 import 'package:simar_test/presentation/home/home_state_holder.dart';
 import 'package:simar_test/presentation/home/widgets/error_section.dart';
 import 'package:simar_test/presentation/home/widgets/news_list_item.dart';
@@ -21,9 +22,19 @@ class RecommendationSection extends StatelessWidget {
           children: success.data
               .map(
                 (e) => Padding(
-                  padding: const EdgeInsets.only(bottom: 16, left: 16, right: 16),
-                  child: NewsListItem(
-                    dto: e,
+                  padding:
+                      const EdgeInsets.only(bottom: 16, left: 16, right: 16),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        DetailsScreen.route,
+                        arguments: e,
+                      );
+                    },
+                    child: NewsListItem(
+                      dto: e,
+                    ),
                   ),
                 ),
               )
